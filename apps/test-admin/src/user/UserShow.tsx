@@ -3,15 +3,14 @@ import {
   Show,
   SimpleShowLayout,
   ShowProps,
-  TextField,
   DateField,
+  TextField,
 } from "react-admin";
 
 export const UserShow = (props: ShowProps): React.ReactElement => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
-        <TextField label="aa" source="aa" />
         <DateField source="createdAt" label="Created At" />
         <TextField label="Email" source="email" />
         <TextField label="First Name" source="firstName" />
