@@ -1,6 +1,7 @@
 import { JsonValue } from "type-fest";
 
 export type User = {
+  aa: string | null;
   createdAt: Date;
   email: string | null;
   firstName: string | null;

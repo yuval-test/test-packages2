@@ -27,6 +27,17 @@ class UserWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
+  aa?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
   email?: StringNullableFilter;
 
   @ApiProperty({
