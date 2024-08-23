@@ -8,6 +8,7 @@ generator client {
 }
 
 model User {
+  aa        String?
   createdAt DateTime @default(now())
   email     String?  @unique
   firstName String?
