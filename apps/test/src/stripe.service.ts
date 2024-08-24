@@ -27,4 +27,20 @@ export class StripeService {
       description,
     });
   }
+
+  async handleWebhook(event: Stripe.Event): Promise<void> {
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        // Handle successful payment here
+        break;
+      case 'customer.created':
+        const customer = event.data.object as Stripe.Customer;
+        // Handle new customer creation here
+        break;
+      // Add more cases as needed
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+  }
 }
