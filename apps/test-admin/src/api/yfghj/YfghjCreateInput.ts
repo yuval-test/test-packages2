@@ -1,1 +1,3 @@
-export type YfghjCreateInput = {};
+export type YfghjCreateInput = {
+  ds?: string | null;
+};

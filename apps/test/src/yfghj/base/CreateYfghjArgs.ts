@@ -9,23 +9,22 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-import { InputType, Field } from "@nestjs/graphql";
+import { ArgsType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength, IsOptional } from "class-validator";
+import { YfghjCreateInput } from "./YfghjCreateInput";
+import { ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
-@InputType()
-class YfghjCreateInput {
+@ArgsType()
+class CreateYfghjArgs {
   @ApiProperty({
-    required: false,
-    type: String,
+    required: true,
+    type: () => YfghjCreateInput,
   })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  ds?: string | null;
+  @ValidateNested()
+  @Type(() => YfghjCreateInput)
+  @Field(() => YfghjCreateInput, { nullable: false })
+  data!: YfghjCreateInput;
 }
 
-export { YfghjCreateInput as YfghjCreateInput };
+export { CreateYfghjArgs as CreateYfghjArgs };
