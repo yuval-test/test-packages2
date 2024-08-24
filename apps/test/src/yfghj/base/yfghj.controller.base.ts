@@ -50,6 +50,7 @@ export class YfghjControllerBase {
       data: data,
       select: {
         createdAt: true,
+        ds: true,
         id: true,
         updatedAt: true,
       },
@@ -74,6 +75,7 @@ export class YfghjControllerBase {
       ...args,
       select: {
         createdAt: true,
+        ds: true,
         id: true,
         updatedAt: true,
       },
@@ -99,6 +101,7 @@ export class YfghjControllerBase {
       where: params,
       select: {
         createdAt: true,
+        ds: true,
         id: true,
         updatedAt: true,
       },
@@ -133,6 +136,7 @@ export class YfghjControllerBase {
         data: data,
         select: {
           createdAt: true,
+          ds: true,
           id: true,
           updatedAt: true,
         },
@@ -166,6 +170,7 @@ export class YfghjControllerBase {
         where: params,
         select: {
           createdAt: true,
+          ds: true,
           id: true,
           updatedAt: true,
         },

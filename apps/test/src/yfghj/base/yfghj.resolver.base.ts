@@ -18,10 +18,13 @@ import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Yfghj } from "./Yfghj";
 import { YfghjCountArgs } from "./YfghjCountArgs";
 import { YfghjFindManyArgs } from "./YfghjFindManyArgs";
 import { YfghjFindUniqueArgs } from "./YfghjFindUniqueArgs";
+import { CreateYfghjArgs } from "./CreateYfghjArgs";
+import { UpdateYfghjArgs } from "./UpdateYfghjArgs";
 import { DeleteYfghjArgs } from "./DeleteYfghjArgs";
 import { YfghjService } from "../yfghj.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
@@ -73,6 +76,45 @@ export class YfghjResolverBase {
       return null;
     }
     return result;
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Yfghj)
+  @nestAccessControl.UseRoles({
+    resource: "Yfghj",
+    action: "create",
+    possession: "any",
+  })
+  async createYfghj(@graphql.Args() args: CreateYfghjArgs): Promise<Yfghj> {
+    return await this.service.createYfghj({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Yfghj)
+  @nestAccessControl.UseRoles({
+    resource: "Yfghj",
+    action: "update",
+    possession: "any",
+  })
+  async updateYfghj(
+    @graphql.Args() args: UpdateYfghjArgs
+  ): Promise<Yfghj | null> {
+    try {
+      return await this.service.updateYfghj({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
   }
 
   @graphql.Mutation(() => Yfghj)

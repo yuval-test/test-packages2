@@ -12,6 +12,7 @@ export const YfghjShow = (props: ShowProps): React.ReactElement => {
     <Show {...props}>
       <SimpleShowLayout>
         <DateField source="createdAt" label="Created At" />
+        <TextField label="ds" source="ds" />
         <TextField label="ID" source="id" />
         <DateField source="updatedAt" label="Updated At" />
       </SimpleShowLayout>
