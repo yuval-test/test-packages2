@@ -1,7 +1,5 @@
 {
   "name": "@test/server",
-{
-  "name": "@test/server",
   "private": true,
   "scripts": {
     "start": "nest start",
@@ -48,8 +46,7 @@
     "reflect-metadata": "0.1.13",
     "ts-node": "10.9.2",
     "type-fest": "2.19.0",
-    "validator": "13.11.0",
-    "stripe": "^8.0.0"
+    "validator": "13.11.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.18",
@@ -67,17 +64,6 @@
     "prisma": "^5.4.2",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.4.3"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "@app/custom-validators": "<rootDir>/src/validators"
-    },
-    "modulePathIgnorePatterns": ["<rootDir>/dist/"]
-  }
-}
     "typescript": "^5.4.3"
   },
   "jest": {
