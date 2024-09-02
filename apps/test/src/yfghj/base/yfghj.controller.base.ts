@@ -26,6 +26,9 @@ import { Yfghj } from "./Yfghj";
 import { YfghjFindManyArgs } from "./YfghjFindManyArgs";
 import { YfghjWhereUniqueInput } from "./YfghjWhereUniqueInput";
 import { YfghjUpdateInput } from "./YfghjUpdateInput";
+import { UserFindManyArgs } from "../../user/base/UserFindManyArgs";
+import { User } from "../../user/base/User";
+import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -183,5 +186,111 @@ export class YfghjControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get("/:id/myUser")
+  @ApiNestedQuery(UserFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "read",
+    possession: "any",
+  })
+  async findMyUser(
+    @common.Req() request: Request,
+    @common.Param() params: YfghjWhereUniqueInput
+  ): Promise<User[]> {
+    const query = plainToClass(UserFindManyArgs, request.query);
+    const results = await this.service.findMyUser(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        email: true,
+        firstName: true,
+        id: true,
+        lastName: true,
+        roles: true,
+        updatedAt: true,
+        username: true,
+
+        yfghjs: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/myUser")
+  @nestAccessControl.UseRoles({
+    resource: "Yfghj",
+    action: "update",
+    possession: "any",
+  })
+  async connectMyUser(
+    @common.Param() params: YfghjWhereUniqueInput,
+    @common.Body() body: UserWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      myUser: {
+        connect: body,
+      },
+    };
+    await this.service.updateYfghj({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/myUser")
+  @nestAccessControl.UseRoles({
+    resource: "Yfghj",
+    action: "update",
+    possession: "any",
+  })
+  async updateMyUser(
+    @common.Param() params: YfghjWhereUniqueInput,
+    @common.Body() body: UserWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      myUser: {
+        set: body,
+      },
+    };
+    await this.service.updateYfghj({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/myUser")
+  @nestAccessControl.UseRoles({
+    resource: "Yfghj",
+    action: "update",
+    possession: "any",
+  })
+  async disconnectMyUser(
+    @common.Param() params: YfghjWhereUniqueInput,
+    @common.Body() body: UserWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      myUser: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateYfghj({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

@@ -47,7 +47,15 @@ export class UserControllerBase {
   })
   async createUser(@common.Body() data: UserCreateInput): Promise<User> {
     return await this.service.createUser({
-      data: data,
+      data: {
+        ...data,
+
+        yfghjs: data.yfghjs
+          ? {
+              connect: data.yfghjs,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
         email: true,
@@ -57,6 +65,12 @@ export class UserControllerBase {
         roles: true,
         updatedAt: true,
         username: true,
+
+        yfghjs: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -86,6 +100,12 @@ export class UserControllerBase {
         roles: true,
         updatedAt: true,
         username: true,
+
+        yfghjs: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -116,6 +136,12 @@ export class UserControllerBase {
         roles: true,
         updatedAt: true,
         username: true,
+
+        yfghjs: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (result === null) {
@@ -145,7 +171,15 @@ export class UserControllerBase {
     try {
       return await this.service.updateUser({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          yfghjs: data.yfghjs
+            ? {
+                connect: data.yfghjs,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
           email: true,
@@ -155,6 +189,12 @@ export class UserControllerBase {
           roles: true,
           updatedAt: true,
           username: true,
+
+          yfghjs: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -193,6 +233,12 @@ export class UserControllerBase {
           roles: true,
           updatedAt: true,
           username: true,
+
+          yfghjs: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {

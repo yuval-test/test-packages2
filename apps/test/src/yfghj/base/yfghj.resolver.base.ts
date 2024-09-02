@@ -26,6 +26,8 @@ import { YfghjFindUniqueArgs } from "./YfghjFindUniqueArgs";
 import { CreateYfghjArgs } from "./CreateYfghjArgs";
 import { UpdateYfghjArgs } from "./UpdateYfghjArgs";
 import { DeleteYfghjArgs } from "./DeleteYfghjArgs";
+import { UserFindManyArgs } from "../../user/base/UserFindManyArgs";
+import { User } from "../../user/base/User";
 import { YfghjService } from "../yfghj.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Yfghj)
@@ -136,5 +138,25 @@ export class YfghjResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [User], { name: "myUser" })
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "read",
+    possession: "any",
+  })
+  async findMyUser(
+    @graphql.Parent() parent: Yfghj,
+    @graphql.Args() args: UserFindManyArgs
+  ): Promise<User[]> {
+    const results = await this.service.findMyUser(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

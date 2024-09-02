@@ -10,41 +10,37 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
+import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsString,
-  MaxLength,
-  IsOptional,
-  ValidateNested,
-} from "class-validator";
-import { UserUpdateManyWithoutYfghjsInput } from "./UserUpdateManyWithoutYfghjsInput";
-import { Type } from "class-transformer";
 
 @InputType()
-class YfghjUpdateInput {
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @MaxLength(1000)
-  @IsOptional()
-  @Field(() => String, {
+class UserUpdateManyWithoutYfghjsInput {
+  @Field(() => [UserWhereUniqueInput], {
     nullable: true,
   })
-  ds?: string | null;
+  @ApiProperty({
+    required: false,
+    type: () => [UserWhereUniqueInput],
+  })
+  connect?: Array<UserWhereUniqueInput>;
 
-  @ApiProperty({
-    required: false,
-    type: () => UserUpdateManyWithoutYfghjsInput,
-  })
-  @ValidateNested()
-  @Type(() => UserUpdateManyWithoutYfghjsInput)
-  @IsOptional()
-  @Field(() => UserUpdateManyWithoutYfghjsInput, {
+  @Field(() => [UserWhereUniqueInput], {
     nullable: true,
   })
-  myUser?: UserUpdateManyWithoutYfghjsInput;
+  @ApiProperty({
+    required: false,
+    type: () => [UserWhereUniqueInput],
+  })
+  disconnect?: Array<UserWhereUniqueInput>;
+
+  @Field(() => [UserWhereUniqueInput], {
+    nullable: true,
+  })
+  @ApiProperty({
+    required: false,
+    type: () => [UserWhereUniqueInput],
+  })
+  set?: Array<UserWhereUniqueInput>;
 }
 
-export { YfghjUpdateInput as YfghjUpdateInput };
+export { UserUpdateManyWithoutYfghjsInput as UserUpdateManyWithoutYfghjsInput };
