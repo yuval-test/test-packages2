@@ -26,6 +26,7 @@ import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { CreateUserArgs } from "./CreateUserArgs";
 import { UpdateUserArgs } from "./UpdateUserArgs";
 import { DeleteUserArgs } from "./DeleteUserArgs";
+import { Yfghj } from "../../yfghj/base/Yfghj";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -86,7 +87,15 @@ export class UserResolverBase {
   async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
     return await this.service.createUser({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        yfghjs: args.data.yfghjs
+          ? {
+              connect: args.data.yfghjs,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -101,7 +110,15 @@ export class UserResolverBase {
     try {
       return await this.service.updateUser({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          yfghjs: args.data.yfghjs
+            ? {
+                connect: args.data.yfghjs,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -130,5 +147,24 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Yfghj, {
+    nullable: true,
+    name: "yfghjs",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Yfghj",
+    action: "read",
+    possession: "any",
+  })
+  async getYfghjs(@graphql.Parent() parent: User): Promise<Yfghj | null> {
+    const result = await this.service.getYfghjs(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

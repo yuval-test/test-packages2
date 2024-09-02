@@ -11,10 +11,17 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, MaxLength } from "class-validator";
+import {
+  IsString,
+  IsOptional,
+  MaxLength,
+  ValidateNested,
+} from "class-validator";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { YfghjWhereUniqueInput } from "../../yfghj/base/YfghjWhereUniqueInput";
+import { Type } from "class-transformer";
 
 @InputType()
 class UserUpdateInput {
@@ -84,6 +91,18 @@ class UserUpdateInput {
     nullable: true,
   })
   username?: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => YfghjWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => YfghjWhereUniqueInput)
+  @IsOptional()
+  @Field(() => YfghjWhereUniqueInput, {
+    nullable: true,
+  })
+  yfghjs?: YfghjWhereUniqueInput | null;
 }
 
 export { UserUpdateInput as UserUpdateInput };

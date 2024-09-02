@@ -17,11 +17,14 @@ model User {
   roles     Json
   updatedAt DateTime @updatedAt
   username  String   @unique
+  yfghjs    Yfghj?   @relation(fields: [yfghjsId], references: [id])
+  yfghjsId  String?
 }
 
 model Yfghj {
   createdAt DateTime @default(now())
   ds        String?
   id        String   @id @default(cuid())
+  myUser    User[]
   updatedAt DateTime @updatedAt
 }

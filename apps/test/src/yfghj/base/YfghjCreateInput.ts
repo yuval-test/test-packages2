@@ -11,7 +11,14 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength, IsOptional } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
+import { UserCreateNestedManyWithoutYfghjsInput } from "./UserCreateNestedManyWithoutYfghjsInput";
+import { Type } from "class-transformer";
 
 @InputType()
 class YfghjCreateInput {
@@ -26,6 +33,18 @@ class YfghjCreateInput {
     nullable: true,
   })
   ds?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserCreateNestedManyWithoutYfghjsInput,
+  })
+  @ValidateNested()
+  @Type(() => UserCreateNestedManyWithoutYfghjsInput)
+  @IsOptional()
+  @Field(() => UserCreateNestedManyWithoutYfghjsInput, {
+    nullable: true,
+  })
+  myUser?: UserCreateNestedManyWithoutYfghjsInput;
 }
 
 export { YfghjCreateInput as YfghjCreateInput };
